@@ -1,0 +1,5 @@
+first setup all the react app , logo , font, 
+2. build all the pages
+
+for components we are using here the prebuilt UI
+create the Banner, Features, Hero, Testimonials etc
