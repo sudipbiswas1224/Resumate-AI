@@ -3,7 +3,8 @@ import Banner from "../components/home/Banner";
 import Hero from "../components/home/Hero";
 import Features from "../components/home/Features";
 import Testimonials from "../components/home/Testimonials";
-import CallToAction from "../components/CallToAction";
+import Footer from "../components/home/Footer";
+import CallToAction from "../components/home/CallToAction";
 
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
       <Features />
       <Testimonials/>
       <CallToAction/> 
+      <Footer/>
     </div>
   );
 };

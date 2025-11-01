@@ -6,6 +6,11 @@
     font-family: 'Outfit', sans-serif;
 }
 
-button, a{
-    cursor: pointer;
+@layer base{
+    button{
+        @apply cursor-pointer;
+    }
+    input:not([type="checkbox"]){
+        @apply outline-none focus:ring  border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg;
+    }
 }
