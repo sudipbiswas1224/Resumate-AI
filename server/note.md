@@ -1,0 +1,17 @@
+-- npm init
+-- install all the dependencies
+-- create server.js
+-- create src and then app 
+-- create server and run it
+-- create project in mongoDB atlas
+-- connect mongoDB with server
+-- create userModel
+-- create controller for user
+-- create routes for user
+ -- take all the input from req.body
+ -- check if any input is empty or not
+ -- check if user already exists
+ -- create new user
+ -- hash the password using bcrypt
+ -- create jsonwebtoken
+ -- 

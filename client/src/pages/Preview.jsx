@@ -1,11 +1,59 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { dummyResumeData } from "../assets/assets";
+import { ArrowLeft, Loader } from "lucide-react";
+import ResumePreview from "../components/ResumePreview";
 
 const Preview = () => {
-  return (
-    <div>
-        <h1>Preview page</h1>
-    </div>
-  )
-}
+  //get resume id
+  const { resumeId } = useParams();
+  const navigate = useNavigate();
 
-export default Preview
+  const [resumeData, setResumeData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const loadResumeData = async () => {
+    setResumeData(
+      dummyResumeData.find((resume) => resume._id === resumeId) || null
+    );
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    loadResumeData();
+  }, []);
+
+  return resumeData ? (
+    <div className="bg-slate-100">
+      <div className="max-w-3xl mx-auto py-10">
+        <ResumePreview
+          data={resumeData}
+          template={resumeData.template}
+          accentColor={resumeData.accent_color}
+          classes="py-4 bg-white"
+        />
+      </div>
+    </div>
+  ) : (
+    <div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="flex flex-col items-center justify-center h-screen">
+          <p className="text-center text-6xl text-slate-400 font-medium">
+            Resume Not Found
+          </p>
+          <a
+            href="/"
+            className="mt-6 bg-green-500 hover:bg-green-600 text-white rounded-full px-6 h-9 m-1 ring-offset-1 ring-1 ring-green-400 flex items-center transition-colors"
+          >
+            <ArrowLeft className="mr-2 size-4" />
+            Go to home page
+          </a>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Preview;
