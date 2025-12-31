@@ -21,6 +21,10 @@ const resumeSchema = new mongoose.Schema({
         type: String,
         default: "#3B82F6"
     },
+    professional_summary: {
+        type: String,
+        default: ''
+    },
     skils: [String],
     personal_info: {
         image: { type: String, default: '' },
@@ -66,6 +70,6 @@ const resumeSchema = new mongoose.Schema({
 )
 
 
-const resumeModel = new mongoose.model('Resume',resumeSchema);
+const resumeModel = new mongoose.model('Resume', resumeSchema);
 
 export default resumeModel;

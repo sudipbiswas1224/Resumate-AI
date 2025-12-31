@@ -145,3 +145,6 @@ export const updateResume = async (req, res) => {
         })
     }
 }
+
+
+
