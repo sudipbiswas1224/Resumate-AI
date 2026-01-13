@@ -106,7 +106,12 @@ export const updateResume = async (req, res) => {
         const userId = req.userId;
         const { resumeId, resumeData, removeBackground } = req.body;
         const image = req.file;
-        const resumeDataCopy = JSON.parse(resumeData);
+        let resumeDataCopy;
+        if(typeof resumeData === 'string'){
+            resumeDataCopy = JSON.parse(resumeData);
+        }else {
+            resumeDataCopy = structuredClone(resumeData);
+        }
 
         // image url generation with imagekit and saving it in the resumeData
         if (image) {
@@ -119,8 +124,9 @@ export const updateResume = async (req, res) => {
                     pre: 'w-300,h-300,fo-face,z-0.75' + (removeBackground ? ',e-bgremove' : '')
                 }
             });
+            console.log(response)
             // updating the image url in the personal_info of a user
-            resumeData.personal_info.image = response.url;
+            resumeDataCopy.personal_info.image = response.url;
 
         }
         // updating resume in db and getting the updated resume 

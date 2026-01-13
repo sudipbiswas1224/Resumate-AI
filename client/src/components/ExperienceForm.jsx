@@ -1,7 +1,19 @@
-import { Briefcase, CompassIcon, Plus, Sparkles, Trash2 } from "lucide-react";
-import React from "react";
+import {
+  Briefcase,
+  CompassIcon,
+  Loader,
+  Loader2,
+  Plus,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import api from "../configs/api";
 
 const ExperienceForm = ({ data, onChange }) => {
+  const { token } = useSelector((state) => state.auth);
+  const [generatingIndex, setGeneratingIndex] = useState(-1);
   /* adding experience */
   const addExperience = () => {
     const newExperience = {
@@ -26,6 +38,26 @@ const ExperienceForm = ({ data, onChange }) => {
     const updated = [...data];
     updated[ind] = { ...updated[ind], [field]: value };
     onChange(updated);
+  };
+
+  const generateDescription = async (index) => {
+    setGeneratingIndex(index);
+    const experience = data[index];
+    const prompt = `enhance this job description${experience.description} for the position of ${experience.position} at ${experience.company}.`;
+
+    try {
+      const { data } = await api.post(
+        "/api/ai/enhance-job-desc",
+        { userContent: prompt },
+        { headers: { Authorization: token } }
+      );
+
+      updateExperience(index, "description", data.enhancedContent);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setGeneratingIndex(-1);
+    }
   };
   return (
     <div className="space-y-6">
@@ -53,9 +85,7 @@ const ExperienceForm = ({ data, onChange }) => {
         <div className="text-center py-8 text-gray-500">
           <Briefcase className="w-12 h-12 mx-auto mb-3 text-gray-300" />
           <p>No work experience added yet.</p>
-          <p className="text-sm">
-            Click "Add Experience" to get started.
-          </p>
+          <p className="text-sm">Click "Add Experience" to get started.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -69,7 +99,7 @@ const ExperienceForm = ({ data, onChange }) => {
                 <h4>Experience #{ind + 1} </h4>
                 {/* delete button */}
                 <button
-                  onClick={()=>removeExperience(ind)}
+                  onClick={() => removeExperience(ind)}
                   className="text-erd-500 hover:text-red-700 transition-colors"
                 >
                   <Trash2 className="size-4" />
@@ -143,8 +173,18 @@ const ExperienceForm = ({ data, onChange }) => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label htmlFor="">Job Description</label>
-                  <button className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 trasition-colors diasbles:opacity-50">
-                    <Sparkles className="w-3 h-3" />
+                  <button
+                    disabled={
+                      generatingIndex === ind || !exp.position || !exp.company
+                    }
+                    onClick={() => generateDescription(ind)}
+                    className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 trasition-colors diasbles:opacity-50"
+                  >
+                    {generatingIndex === ind ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-3 h-3" />
+                    )}
                     Enhance with AI
                   </button>
                 </div>

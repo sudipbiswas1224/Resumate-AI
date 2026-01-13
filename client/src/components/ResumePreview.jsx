@@ -50,14 +50,14 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
               visibility: visible;
             }
 
-            #resume-preview{
+            #resume-preview {
               position: absolute;
-              left:0;
-              top:0;
-              width:100%;
+              left: 0;
+              top: 0;
+              width: 100%;
               height: auto;
               margin: 0;
-              padding:0;
+              padding: 0;
               box-shadow: none !important;
               border: none !important;
             }
