@@ -59,7 +59,7 @@ export const uploadResume = async (req, res) => {
             type: String,
             default: ''
         },
-        skils: [String],
+        skills: [String],
         personal_info: {
             image: { type: String, default: '' },
             full_name: { type: String, default: '' },
@@ -102,7 +102,7 @@ export const uploadResume = async (req, res) => {
         // console.log(response)
         const parsedData = await JSON.parse(response);
 
-        // console.log(parsedData)
+        console.log(parsedData)
 
         const newResume = await resumeModel.create({ userId, title, ...parsedData });
         
